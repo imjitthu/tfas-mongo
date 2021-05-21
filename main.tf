@@ -13,6 +13,18 @@ resource "aws_instance" "mongo" {
     "Name" = "${var.COMPONENT}-Server"
   }
 
+ connection {
+  host = aws_instance.mongo.public_ip
+  type = "ssh"
+  user = var.USER
+  #private_key = file("${local.key_path}")
+  password = var.PASSWORD
+}
+
+provisioner "remote-exec" {
+  inline = [ "set-hostname ${var.COMPONENT}" ]
+} 
+
 provisioner "local-exec" {
   command = "echo ${aws_instance.mongo.public_ip} > mongo_inv"
   #command = "ansible-playbook -i ${aws_instance.mongo.public_ip}, --private-key ${local.key_path} ${var.COMPONENT}.yml"

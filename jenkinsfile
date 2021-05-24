@@ -23,7 +23,6 @@ pipeline {
             else {
                 echo "terraform action is: ${env.tfaction}"
                 }
-
                 } 
             } 
         } 
